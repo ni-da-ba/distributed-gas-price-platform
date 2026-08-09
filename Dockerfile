@@ -2,10 +2,12 @@ FROM python:3.12-slim AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_ROOT_USER_ACTION=ignore
 
-RUN groupadd --system --gid 10001 app \
-    && useradd --system --uid 10001 --gid app --home-dir /app app
+RUN groupadd --gid 10001 app \
+    && useradd --uid 10001 --gid app --home-dir /app --no-create-home \
+        --shell /usr/sbin/nologin app
 
 WORKDIR /app
 
@@ -17,4 +19,3 @@ USER 10001:10001
 EXPOSE 8000
 
 CMD ["gunicorn", "--bind=0.0.0.0:8000", "--workers=2", "--threads=4", "--access-logfile=-", "gas_price_platform.wsgi:app"]
-
