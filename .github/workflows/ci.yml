@@ -29,7 +29,13 @@ jobs:
 
   container:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - run: docker compose config --quiet
-      - run: docker build --tag distributed-gas-price-platform:test .
+      - run: docker compose up --build --detach --wait
+      - run: python scripts/compose_smoke.py
+      - if: always()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down --volumes

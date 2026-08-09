@@ -16,7 +16,7 @@ university project. See [AUTHORS.md](AUTHORS.md) for the exact authorship bounda
 - Reproducible local deployment with Docker Compose
 - Kubernetes Deployments, Services, probes, resource limits, and non-root security contexts
 - Deterministic unit/API/worker tests and static deployment-contract checks
-- CI validation across Python 3.11 and 3.12 plus an independent container build
+- CI validation across Python 3.11 and 3.12 plus a full API/Redis/worker Compose smoke test
 
 ## System shape
 
