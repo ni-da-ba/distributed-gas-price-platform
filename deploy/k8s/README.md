@@ -18,12 +18,12 @@ Kubernetes API and is therefore a deployment-environment check.
 ## Run on a local kind cluster
 
 The committed base references the release image
-`ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0`. To test an unpushed
+`ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.1`. To test an unpushed
 local build under the same name:
 
 ```bash
-docker build -t ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0 .
-kind load docker-image ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0
+docker build -t ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.1 .
+kind load docker-image ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.1
 kubectl apply -k deploy/k8s/base
 kubectl rollout status deployment/gas-price-api
 kubectl rollout status deployment/gas-price-worker
