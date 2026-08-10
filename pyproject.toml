@@ -13,7 +13,7 @@ authors = [{ name = "Nicholas Babineaux" }]
 dependencies = [
   "Flask>=3.1,<4",
   "gunicorn>=23,<27",
-  "redis>=6,<7",
+  "redis>=6,<9",
   "requests>=2.32,<3",
 ]
 
