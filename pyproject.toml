@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "distributed-gas-price-platform"
-version = "1.0.0"
+version = "1.0.1"
 description = "Containerized API and asynchronous analysis platform for New York gasoline-price data"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -42,4 +42,3 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]
-

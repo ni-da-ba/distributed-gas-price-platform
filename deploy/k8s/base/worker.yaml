@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: worker
-          image: ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0
+          image: ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.1
           imagePullPolicy: IfNotPresent
           command: ["python", "-m", "gas_price_platform.worker"]
           envFrom:
