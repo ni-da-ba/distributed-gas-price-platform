@@ -34,9 +34,10 @@ def test_release_workflow_matches_kubernetes_image() -> None:
     workflow = (ROOT / ".github" / "workflows" / "publish-container.yml").read_text()
     api_manifest = (ROOT / "deploy" / "k8s" / "base" / "api.yaml").read_text()
     worker_manifest = (ROOT / "deploy" / "k8s" / "base" / "worker.yaml").read_text()
-    image = "ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0"
+    image = "ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.1"
 
     assert 'tags: ["v*.*.*"]' in workflow
+    assert "docker/setup-buildx-action@v3" in workflow
     assert '--tag "$IMAGE:$VERSION"' in workflow
     assert image in api_manifest
     assert image in worker_manifest

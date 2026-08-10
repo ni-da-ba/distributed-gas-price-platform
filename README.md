@@ -99,7 +99,7 @@ The Kubernetes base is in `deploy/k8s/base` and renders with:
 kubectl kustomize deploy/k8s/base
 ```
 
-The base references `ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0`.
+The base references `ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.1`.
 Release tags matching `vX.Y.Z` publish the corresponding `X.Y.Z` image and
 `latest` to GitHub Container Registry with build provenance and an SBOM. See
 [deploy/k8s/README.md](deploy/k8s/README.md) for local-cluster and verification
