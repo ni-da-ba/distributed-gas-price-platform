@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gas-price-api
+  labels:
+    app.kubernetes.io/name: gas-price-api
+    app.kubernetes.io/part-of: distributed-gas-price-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gas-price-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: gas-price-api
+        app.kubernetes.io/part-of: distributed-gas-price-platform
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: api
+          image: ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: gas-price-config
+          ports:
+            - name: http
+              containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 750m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: temporary-files
+              mountPath: /tmp
+      volumes:
+        - name: temporary-files
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gas-price-api
+  labels:
+    app.kubernetes.io/name: gas-price-api
+    app.kubernetes.io/part-of: distributed-gas-price-platform
+spec:
+  selector:
+    app.kubernetes.io/name: gas-price-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

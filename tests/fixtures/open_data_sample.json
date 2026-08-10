@@ -1,0 +1,21 @@
+[
+  {
+    "date": "2024-01-01T00:00:00.000",
+    "new_york_state_average_gal": "3.100",
+    "albany_average_gal": "3.000",
+    "new_york_city_average_gal": "3.200"
+  },
+  {
+    "date": "2024-01-08T00:00:00.000",
+    "new_york_state_average_gal": "3.200",
+    "albany_average_gal": "3.100",
+    "new_york_city_average_gal": null
+  },
+  {
+    "date": "2024-01-15T00:00:00.000",
+    "new_york_state_average_gal": "3.300",
+    "albany_average_gal": "3.200",
+    "new_york_city_average_gal": "3.400"
+  }
+]
+

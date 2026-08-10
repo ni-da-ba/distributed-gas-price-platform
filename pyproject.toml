@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "distributed-gas-price-platform"
+version = "1.0.0"
+description = "Containerized API and asynchronous analysis platform for New York gasoline-price data"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Nicholas Babineaux" }]
+dependencies = [
+  "Flask>=3.1,<4",
+  "gunicorn>=23,<24",
+  "redis>=6,<7",
+  "requests>=2.32,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "fakeredis>=2.31,<3",
+  "pytest>=8.4,<10",
+  "pytest-cov>=6,<8",
+  "PyYAML>=6,<7",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+gas-price-worker = "gas_price_platform.worker:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-config --strict-markers -ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
