@@ -1,5 +1,7 @@
 # Distributed Gas Price Platform
 
+[![CI](https://github.com/ni-da-ba/distributed-gas-price-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/ni-da-ba/distributed-gas-price-platform/actions/workflows/ci.yml)
+
 A containerized Flask API and asynchronous worker for exploring weekly gasoline prices
 across New York State regions. The system ingests the official Open Data NY dataset,
 normalizes observations into Redis, serves regional and time-window queries, and runs
@@ -97,13 +99,21 @@ The Kubernetes base is in `deploy/k8s/base` and renders with:
 kubectl kustomize deploy/k8s/base
 ```
 
-Its versioned image reference is a reviewer-facing example. Replace it with a registry digest
-before production deployment. The manifests intentionally contain no credentials.
+The base references `ghcr.io/ni-da-ba/distributed-gas-price-platform:1.0.0`.
+Release tags matching `vX.Y.Z` publish the corresponding `X.Y.Z` image and
+`latest` to GitHub Container Registry with build provenance and an SBOM. See
+[deploy/k8s/README.md](deploy/k8s/README.md) for local-cluster and verification
+instructions. Use an immutable digest rather than a mutable tag for a real
+production rollout. The manifests intentionally contain no credentials.
 
 ## Scope
 
 This repository demonstrates application architecture and deployment configuration; it does
 not claim to be a production-operated public service. The linear trend is descriptive and
-must not be interpreted as a price forecast. The supplied Redis deployment is ephemeral.
+must not be interpreted as a price forecast. The supplied Redis deployment is ephemeral, and
+the compact Redis list queue provides at-most-once delivery after a worker removes a job ID;
+production use would require leases, acknowledgement, retries, and dead-letter handling.
 
-Released under the MIT License.
+The current `main` branch is the supported portfolio version. Dependency updates are proposed
+automatically, sensitive reports should follow [SECURITY.md](SECURITY.md), and the repository
+is released under the [MIT License](LICENSE).
