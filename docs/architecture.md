@@ -11,16 +11,18 @@ The platform separates request handling from potentially slower analytical work.
 
 Redis is deliberately used for both the dataset snapshot and job coordination so the API
 and worker remain stateless. Kubernetes can therefore scale the API independently from the
-worker. A single worker replica is the conservative default because this portfolio system
-uses an at-least-once queue without distributed job leases.
+worker. A single worker replica is the conservative default. `BRPOP` removes a job ID when
+it is claimed, so the compact demonstration queue is at-most-once after dequeue; it does not
+implement leases, acknowledgement, retries, or dead-letter handling.
 
 ## Reliability boundaries
 
 - Refresh replaces the dataset in one Redis transaction after the complete upstream
   response has been parsed successfully.
 - A claimed job transitions from `submitted` to `running`, then to `complete` or `failed`.
-- A worker process that terminates after claiming a job can leave it in `running`; a
-  production extension would add expiring leases and retry/dead-letter handling.
+- A worker process that terminates after removing a queued job can leave it in `submitted`
+  or `running` with no automatic retry. A production extension would use a processing queue,
+  acknowledgements, expiring leases, retry limits, and dead-letter handling.
 - Redis uses ephemeral storage in the supplied Kubernetes base. Persistent storage and
   backups are deployment-specific concerns and are not implied here.
 - The public API is intentionally unauthenticated for demonstration. Production deployment
@@ -36,4 +38,3 @@ deviation, minimum, and maximum. It also fits
 with ordinary least squares and reports slope in dollars per gallon per week plus the
 coefficient of determination, R-squared. The trend is descriptive, not a forecast or a
 causal economic model.
-
