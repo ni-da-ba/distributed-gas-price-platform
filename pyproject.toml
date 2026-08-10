@@ -12,7 +12,7 @@ license = { text = "MIT" }
 authors = [{ name = "Nicholas Babineaux" }]
 dependencies = [
   "Flask>=3.1,<4",
-  "gunicorn>=23,<24",
+  "gunicorn>=23,<27",
   "redis>=6,<7",
   "requests>=2.32,<3",
 ]
